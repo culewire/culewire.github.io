@@ -1,0 +1,107 @@
+/* Hoja común de las tres páginas públicas. Sobria a propósito: la lee un
+   revisor de TikTok comprobando que existe y que dice algo real, no un
+   lector buscando diseño. */
+
+:root {
+  --fondo: #FFFFFF;
+  --tinta: #14181F;
+  --apagado: #5B6675;
+  --linea: #E2E8EF;
+  --azul: #0F4C92;
+  --grana: #9B1B4B;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #0B0F17;
+    --tinta: #EDF1F6;
+    --apagado: #97A3B4;
+    --linea: #232C3B;
+    --azul: #4E8FD6;
+    --grana: #C13A6B;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.envoltorio {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+
+header.marca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--linea);
+  margin-bottom: 34px;
+}
+
+header.marca .icono { width: 40px; height: 40px; flex: none; border-radius: 50%; }
+
+header.marca .nombre {
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -.01em;
+  text-decoration: none;
+  color: var(--tinta);
+}
+header.marca .nombre span { color: var(--azul); }
+
+h1 {
+  font-size: clamp(26px, 4vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  margin: 0 0 6px;
+  text-wrap: balance;
+}
+
+.fecha {
+  color: var(--apagado);
+  font-size: 14px;
+  margin: 0 0 34px;
+}
+
+h2 {
+  font-size: 19px;
+  letter-spacing: -.01em;
+  margin: 34px 0 10px;
+}
+
+p, li { margin: 0 0 12px; }
+ul { padding-left: 22px; }
+
+a { color: var(--azul); }
+
+strong { font-weight: 600; }
+
+.aviso {
+  border: 1px solid var(--linea);
+  border-left: 3px solid var(--grana);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 26px 0;
+}
+.aviso p:last-child { margin-bottom: 0; }
+
+footer {
+  margin-top: 56px;
+  padding-top: 22px;
+  border-top: 1px solid var(--linea);
+  color: var(--apagado);
+  font-size: 14px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
