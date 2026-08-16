@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Authorization · Culé Wire</title>
+<link rel="stylesheet" href="estilo.css">
+<style>
+  /* El código es lo único que importa de esta página, así que se le da el
+     tamaño y el contraste de un dato, no de un párrafo. */
+  .codigo {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 15px;
+    word-break: break-all;
+    background: rgba(127, 143, 166, .12);
+    border: 1px solid var(--linea);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 0 0 14px;
+  }
+  button {
+    font: inherit;
+    font-size: 15px;
+    background: var(--azul);
+    color: #fff;
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  button:focus-visible { outline: 2px solid var(--tinta); outline-offset: 2px; }
+  .oculto { display: none; }
+</style>
+</head>
+<body>
+<div class="envoltorio">
+<header class="marca">
+  <span class="nombre">CULÉ <span>WIRE</span></span>
+</header>
+
+<h1>Authorization</h1>
+<p class="fecha">This page receives the authorization code and shows it. Nothing is sent anywhere.</p>
+
+<div id="ok" class="oculto">
+  <p>Authorization granted. Copy this code and paste it into the terminal:</p>
+  <p class="codigo" id="codigo"></p>
+  <button type="button" id="copiar">Copy code</button>
+</div>
+
+<div id="error" class="oculto">
+  <div class="aviso">
+    <p><strong>Authorization was not completed.</strong></p>
+    <p id="detalle"></p>
+    <p>Start the authorization again from the terminal.</p>
+  </div>
+</div>
+
+<div id="vacio">
+  <p>Nothing to show. This page is the redirect target of the Culé Wire
+  authorization flow, and only displays a code when TikTok sends you here
+  after you approve access.</p>
+</div>
+
+<footer>
+  <a href="index.html">Home</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="terms.html">Terms of Service</a>
+</footer>
+</div>
+
+<script>
+  // Todo ocurre en el navegador. El código de autorización no se envía a
+  // ningún servidor desde aquí — no hay servidor: esto es un fichero estático
+  // en GitHub Pages. Quien lo canjea por un token es el proceso de la
+  // terminal, y para eso hace falta también el client secret, que nunca sale
+  // de los secretos del repositorio.
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+  const error = params.get("error");
+
+  const ver = (id) => document.getElementById(id).classList.remove("oculto");
+  const esconder = (id) => document.getElementById(id).classList.add("oculto");
+
+  if (code) {
+    esconder("vacio");
+    document.getElementById("codigo").textContent = code;
+    ver("ok");
+
+    document.getElementById("copiar").addEventListener("click", async (ev) => {
+      await navigator.clipboard.writeText(code);
+      ev.target.textContent = "Copied";
+    });
+  } else if (error) {
+    esconder("vacio");
+    document.getElementById("detalle").textContent =
+      params.get("error_description") || error;
+    ver("error");
+  }
+</script>
+</body>
+</html>
